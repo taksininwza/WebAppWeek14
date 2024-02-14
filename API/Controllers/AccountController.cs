@@ -38,7 +38,7 @@ public class AccountController : BaseApiController
         return new UserDto
         {
             Username = user.UserName,
-            Token = _tokenService.CreateToken(user),
+            Token = await _tokenService.CreateToken(user),
             PhotoUrl = user.Photos.FirstOrDefault(photo => photo.IsMain)?.Url,
             Aka = user.Aka,
             Gender = user.Gender
@@ -50,18 +50,20 @@ public class AccountController : BaseApiController
     {
         if (await isUserExists(registerDto.Username!)) return BadRequest("username is already exists");
         var user = _mapper.Map<AppUser>(registerDto);
-        // using var hmacSHA256 = new HMACSHA256();
+ 
 
         user.UserName = registerDto.Username!.Trim().ToLower();
-        // user.PasswordHash = hmacSHA256.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password!.Trim()));
-        // user.PasswordSalt = hmacSHA256.Key;
+     
 
-          var appUser = await _userManager.CreateAsync(user, registerDto.Password!);//
-        if (!appUser.Succeeded) return BadRequest(appUser.Errors);//<--
+          var appUser = await _userManager.CreateAsync(user, registerDto.Password!);
+        if (!appUser.Succeeded) return BadRequest(appUser.Errors);
+
+        var role = await _userManager.AddToRoleAsync(user, "Member");
+        if (!role.Succeeded) return BadRequest(role.Errors);
         return new UserDto
         {
             Username = user.UserName,
-            Token = _tokenService.CreateToken(user),
+            Token = await _tokenService.CreateToken(user),
             Aka = user.Aka,
             Gender = user.Gender
         };

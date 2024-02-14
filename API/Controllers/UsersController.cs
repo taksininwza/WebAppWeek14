@@ -34,26 +34,28 @@ public class UsersController : BaseApiController
     return await _userRepository.GetUserByUserNameAsync(username);
   }
 
+
+      [Authorize(Roles ="Administrator")]
   [HttpGet]
-  public async Task<ActionResult<PageList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
+  public async Task<ActionResult<PageList<MemberDto>>>GetUsers([FromQuery] UserParams userParams)
   {
     var username = User.GetUsername();
-        if (username is null) return NotFound();
+    if (username is null) return NotFound();
 
-        var currentUser = await _userRepository.GetUserByUserNameAsync(username);
-        if (currentUser is null) return NotFound();
-        userParams.CurrentUserName = currentUser.UserName;
-        if (string.IsNullOrEmpty(userParams.Gender))
-        {
-            if (currentUser.Gender != "non-binary")
-                userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
-            else
-                userParams.Gender = "non-binary";
-        }
+    var currentUser = await _userRepository.GetUserByUserNameAsync(username);
+    if (currentUser is null) return NotFound();
+    userParams.CurrentUserName = currentUser.UserName;
+    if (string.IsNullOrEmpty(userParams.Gender))
+    {
+      if (currentUser.Gender != "non-binary")
+        userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
+      else
+        userParams.Gender = "non-binary";
+    }
     var pages = await _userRepository.GetMembersAsync(userParams);
-        Response.AddPaginationHeader(
-            new PaginationHeader(pages.CurrentPage, pages.PageSize, pages.TotalCount, pages.TotalPages));
-        return Ok(pages);
+    Response.AddPaginationHeader(
+        new PaginationHeader(pages.CurrentPage, pages.PageSize, pages.TotalCount, pages.TotalPages));
+    return Ok(pages);
   }
 
   [HttpGet("{id}")]
@@ -61,7 +63,7 @@ public class UsersController : BaseApiController
   {
     return await _userRepository.GetUserByIdAsync(id);
   }
-
+  [Authorize(Roles = "Administrator,Moderator,Member")]
   [HttpGet("username/{username}")]
   public async Task<ActionResult<AppUser>> GetUserByUserName(string username)
   {
@@ -87,7 +89,7 @@ public class UsersController : BaseApiController
     return BadRequest("Failed to update user profile!");
   }
 
-   [HttpPost("add-image")]
+  [HttpPost("add-image")]
   public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
   {
     var user = await _GetUser();
