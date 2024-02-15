@@ -1,31 +1,17 @@
-[Authorize]
-export class PresenceService : Hub {
-  hubUrl = environment.hubUrl
-  private _hubConnection?: HubConnection
+using API.Extensions;
+using API.signalR;
+using Microsoft.AspNetCore.SignalR;
 
-  constructor(private toastr: ToastrService) { }
+namespace API.Services;
+public class PresenceHub : Hub
+{
+    private readonly PresenceTracker _presenceTracker;
 
-  createHubConnection(user: User) {
-    const url = this.hubUrl + 'presence'
-    this._hubConnection = new HubConnectionBuilder()
-      .withUrl(url, { accessTokenFactory: () => user.token })
-      .withAutomaticReconnect()
-      .build()
-
-    this._hubConnection.start().catch(error => console.log(error))
-    this._hubConnection.on('UserOnline', username => {
-      this.toastr.info(username + ' has connected', '', { positionClass: 'toast-bottom-right' })
-    })
-    this._hubConnection.on('UserOffline', username => {
-      this.toastr.warning(username + ' has disconnected', '', { positionClass: 'toast-bottom-right' })
-    })
-  }
-
-  stopHubConnection() {
-    this._hubConnection?.stop().catch(error => console.log(error))
-  }
-}
-public override async Task OnConnectedAsync() {
+    public PresenceHub(PresenceTracker presenceTracker)
+    {
+        _presenceTracker = presenceTracker;
+    }
+    public override async Task OnConnectedAsync() {
         var username = Context?.User?.GetUsername();
         if (username is null || Context is null) return;
         await _presenceTracker.UserConnected(username, Context.ConnectionId);
@@ -42,3 +28,4 @@ public override async Task OnConnectedAsync() {
         await Clients.All.SendAsync("OnlineUsers", onlineUsers);
         await base.OnDisconnectedAsync(exception);
     }
+}

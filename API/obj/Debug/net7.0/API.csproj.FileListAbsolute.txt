@@ -224,3 +224,5 @@ D:\Download\9-34-7-02-2024-main (1)\9-34-7-02-2024-main\API\bin\Debug\net7.0\Mic
 D:\Download\9-34-7-02-2024-main (1)\9-34-7-02-2024-main\API\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
 D:\Download\9-34-7-02-2024-main (1)\9-34-7-02-2024-main\API\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
 D:\Download\9-34-7-02-2024-main (1)\9-34-7-02-2024-main\API\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+D:\Download\9-34-7-02-2024-main (1)\9-34-7-02-2024-main\API\bin\Debug\net7.0\package-lock.json
+D:\Download\9-34-7-02-2024-main (1)\9-34-7-02-2024-main\API\bin\Debug\net7.0\package.json

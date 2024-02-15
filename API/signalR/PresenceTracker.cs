@@ -1,3 +1,5 @@
+namespace API.signalR;
+
 public class PresenceTracker
 {
     private static readonly Dictionary<string, List<string>> OnlineUsers = new();

@@ -23,7 +23,9 @@
                 *ngIf="(presenceService.onlineUser$ | async)?.includes(member.userName)">
                 <fa-icon [icon]="faUserSolid"></fa-icon> {{member.aka}}
             </span>
-            <fa-icon [icon]="faUser"></fa-icon> {{member.aka}}
+            <span *ngIf="!(presenceService.onlineUser$ | async)?.includes(member.userName)">
+                <fa-icon [icon]="faUser"></fa-icon> {{member.aka}}
+            </span>
         </h6>
         <p class="card-text text-muted text-center mb-0">{{member.gender}} ({{member.age}})</p>
         <p class="card-text text-muted text-center">{{member.city}}</p>
