@@ -1,11 +1,22 @@
 <!-- <div class="row" *ngIf="member"> -->
+  
     <div class="row">
     <div class="col-3">
         <div class="card">
             <img class="card-img-top img-thumbnail" 
                 src="{{member.mainPhotoUrl || './assets/images/default-user.png'}}"
                 alt="{{member.aka}}">
+                
             <div class="card-body">
+                <div>
+                    <strong>Name:</strong>
+                    <p>{{member.aka}}
+                        <span style="color: green;"
+                            *ngIf="(presenceService.onlineUser$ | async)?.includes(member.userName)">
+                            Online
+                        </span>
+                    </p>
+                </div>
                 <div>
                     <strong>Location:</strong>
                     <p>{{member.city}} / {{member.country}}</p>
@@ -26,7 +37,8 @@
             <div class="card-footer">
                 <div class="btn-group d-flex">
                     <button class="btn btn-primary">Like</button>
-                    <button (click)="selectTab('Messages')" class="btn btn-success">Message</button>
+                    <button (click)="selectTab('Messages')
+                    " class="btn btn-success">Message</button>
                 </div>
             </div>
         </div>
@@ -46,8 +58,9 @@
             <tab heading="Photos" #photoTab="tab">
                 <gallery class="gallery" *ngIf="photoTab.active" [items]="photos"></gallery>
             </tab>
-            <tab heading="Messages">
-            <app-member-messages [username]="member.userName" [messages]="messages"></app-member-messages>
+            <tab heading="Messages" (selectTab)="onTabActivated($event)">
+            <!-- <app-member-messages [username]="member.userName" [messages]="messages"></app-member-messages> -->
+            <app-member-messages [username]="member.userName"></app-member-messages>
             </tab>
             
         </tabset>

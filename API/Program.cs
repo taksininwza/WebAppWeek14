@@ -3,6 +3,7 @@ using API.Entities;
 using API.Extensions;
 using API.Middleware;
 using API.Services;
+using API.signalR;
 using Microsoft.AspNetCore.Identity;
 
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<MessageHub>("hubs/message");
 using var scope = app.Services.CreateScope();
 var service = scope.ServiceProvider;
 try {
@@ -36,6 +38,7 @@ try {
     var roleManager = service.GetRequiredService<RoleManager<AppRole>>(); //<--
     await dataContext.Database.MigrateAsync();
     await Seed.SeedUsers(userManager, roleManager); //<-
+    await dataContext.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
 }
 catch (System.Exception e)
 {

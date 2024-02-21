@@ -8,13 +8,13 @@ namespace API.Data;
 
 public class DataContext : IdentityDbContext
 <
-    AppUser, 
-    AppRole, 
-    int, 
-    IdentityUserClaim<int>, 
-    AppUserRole, 
-    IdentityUserLogin<int>, 
-    IdentityRoleClaim<int>, 
+    AppUser,
+    AppRole,
+    int,
+    IdentityUserClaim<int>,
+    AppUserRole,
+    IdentityUserLogin<int>,
+    IdentityRoleClaim<int>,
     IdentityUserToken<int>
 >
 {
@@ -24,15 +24,18 @@ public class DataContext : IdentityDbContext
     }
 
     // public DbSet<AppUser> Users { get; set; }
+
     public DbSet<UserLike> Likes { get; set; }
     public DbSet<Message> Messages { get; set; }
+    public DbSet<MessageGroup> MessageGroups { get; set; }
+    public DbSet<Connection> Connections { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-         modelBuilder.Entity<AppUser>()
-            .HasMany(appUser => appUser.UserRoles)
-            .WithOne(appUserRole => appUserRole.User)
-            .HasForeignKey(appUserRole => appUserRole.UserId)
-            .IsRequired();
+        modelBuilder.Entity<AppUser>()
+           .HasMany(appUser => appUser.UserRoles)
+           .WithOne(appUserRole => appUserRole.User)
+           .HasForeignKey(appUserRole => appUserRole.UserId)
+           .IsRequired();
 
         modelBuilder.Entity<AppRole>()
             .HasMany(appRole => appRole.UserRoles)

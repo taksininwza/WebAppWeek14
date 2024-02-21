@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Download\\9-34-7-02-2024-main (1)\\9-34-7-02-2024-main\\API\\API.csproj": {}
+    "d:\\Download\\webapp\\9-34-7-02-2024-main\\API\\API.csproj": {}
   },
   "projects": {
-    "D:\\Download\\9-34-7-02-2024-main (1)\\9-34-7-02-2024-main\\API\\API.csproj": {
+    "d:\\Download\\webapp\\9-34-7-02-2024-main\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Download\\9-34-7-02-2024-main (1)\\9-34-7-02-2024-main\\API\\API.csproj",
+        "projectUniqueName": "d:\\Download\\webapp\\9-34-7-02-2024-main\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "D:\\Download\\9-34-7-02-2024-main (1)\\9-34-7-02-2024-main\\API\\API.csproj",
+        "projectPath": "d:\\Download\\webapp\\9-34-7-02-2024-main\\API\\API.csproj",
         "packagesPath": "C:\\Users\\ICT\\.nuget\\packages\\",
-        "outputPath": "D:\\Download\\9-34-7-02-2024-main (1)\\9-34-7-02-2024-main\\API\\obj\\",
+        "outputPath": "d:\\Download\\webapp\\9-34-7-02-2024-main\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ICT\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -81,6 +81,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.13, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.11, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
