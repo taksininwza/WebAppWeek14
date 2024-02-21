@@ -23,6 +23,7 @@ export class PresenceService {
       .withAutomaticReconnect()
       .build();
 
+      
     this._hubConnection.start().catch((error) => console.log(error));
     this._hubConnection.on('UserOnline', (username) => {
         // this.toastr.info(username + ' has connected', '', { positionClass: 'toast-bottom-right' })
